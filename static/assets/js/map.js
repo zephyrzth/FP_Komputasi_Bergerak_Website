@@ -1,4 +1,14 @@
-const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-const map = L.map('map')
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: attribution }).addTo(map);
-map.fitWorld();
+// Creating map options
+var mapOptions = {
+center: [-7.250445, 112.768845],
+zoom: 10
+}
+
+// Creating a map object
+var map = new L.map('map', mapOptions);
+
+// Creating a Layer object
+var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+// Adding layer to the map
+map.addLayer(layer);
