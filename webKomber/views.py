@@ -24,6 +24,7 @@ def user_data_post(request):
     if request.method == 'POST':
         #Simpan User Data Logic
         user_data = JSONParser().parse(request)
+        print(user_data)
         # user_data = json.loads(str(request.body.decode('utf-8')))
         user_data_serializer = UserdataSerializer(data=user_data)
         print(user_data_serializer)
