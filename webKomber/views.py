@@ -39,7 +39,7 @@ def user_data_post(request):
 
         jsonObj = json.loads(request.body.decode('utf-8'))
         print(jsonObj)
-        jsonStr = '{"nama_user":' + '"' + jsonObj['nama_user'] + '"' + ',' + '"label_aktivitas":' + str(jsonObj['label_aktivitas']) + ',' + '"locations":' + '{' + str(jsonObj['locations']) + '}'
+        jsonStr = '{"nama_user":' + '"' + jsonObj['nama_user'] + '"' + ',' + '"label_aktivitas":' + str(jsonObj['label_aktivitas']) + ',' + '"locations":' + str(jsonObj['locations']) + '}'
         print("Final " + str(json.loads(jsonStr)))
         jsonFinal = json.loads(jsonStr)
         # user_data = JSONParser().parse(jsonFinal)
