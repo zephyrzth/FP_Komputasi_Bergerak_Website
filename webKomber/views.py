@@ -13,7 +13,19 @@ import json
 
 def index(request):
     userData = UserData.objects.all()
-    return render(request, 'index.html', {'user':userData})
+    hashLocData = dict()
+    for i in userData:
+        key = str(i.locations)
+        hashLocData.setdefault(key,[])
+        hashLocData[key].append(i)
+
+    for key in hashLocData:
+        bindStr = ""
+        for i, item in enumerate(hashLocData[key]):
+            bindStr += "<b>" + str(i+1) + ". " + str(item.nama_user) + "</b><br>" + str(item.get_label_aktivitas_display()) + "<br>" + str(item.created_at) + "<br><br>"
+        hashLocData[key] = bindStr
+
+    return render(request, 'index.html', {'user':hashLocData})
 
 # @api_view(['GET'])
 # def tampil_map(request):
