@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from django.http.response import JsonResponse
+from django.http.response import HttpResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status
 
@@ -11,7 +12,8 @@ import json
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html', {})
+    userData = UserData.objects.all()
+    return render(request, 'index.html', {'user':userData})
 
 # @api_view(['GET'])
 # def tampil_map(request):
@@ -51,5 +53,13 @@ def user_data_get(request):
             userDatas = userDatas.filter(nama_user__icontains=nama_user)
         
         user_data_serializer = UserdataSerializer(userDatas, many=True)
-        return JsonResponse(user_data_serializer.data, safe=False)
+        print(user_data_serializer)
+        # for i in JsonResponse(user_data_serializer.data, safe=False).decode():
+        #     print(i)
+        return JsonResponse(user_data_serializer.data, safe='false')
         # 'safe=False' for objects serialization
+
+def home(request):
+    userData = user_data_get(request)
+    # return userData
+    # return render(request, "templates/tes.html", {'userData':userData})
