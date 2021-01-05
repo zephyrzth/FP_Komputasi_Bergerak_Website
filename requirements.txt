@@ -1,0 +1,4 @@
+djongo
+django==3.1.5
+dnspython
+djangorestframework
