@@ -12,3 +12,10 @@ var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
 
 // Adding layer to the map
 map.addLayer(layer);
+
+// function myMap(map, mapOptions){
+//     var myData = '{% url "data"%}';
+//     $.getJSON(myData, function(data){
+//         L.geoJson(data).addTo(map);
+//     })
+// }

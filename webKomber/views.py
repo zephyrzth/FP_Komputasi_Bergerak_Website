@@ -33,3 +33,19 @@ def user_data_post(request):
             user_data_serializer.save()
             return JsonResponse(user_data_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(user_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+all_entries = UserData.objects.all()
+print(all_entries)
+
+@api_view(['GET'])
+def user_data_get(request):
+    if request.method == 'GET':
+        userDatas = UserData.objects.all()
+        
+        nama_user = request.GET.get('nama_user', None)
+        if nama_user is not None:
+            userDatas = userDatas.filter(nama_user__icontains=nama_user)
+        
+        user_data_serializer = UserdataSerializer(userDatas, many=True)
+        return JsonResponse(user_data_serializer.data, safe=False)
+        # 'safe=False' for objects serialization
