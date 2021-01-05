@@ -20,22 +20,26 @@ def index(request):
 #     #     #Tampil Map Logic
 @api_view(['POST'])
 def user_data_post(request):
-    
     if request.method == 'POST':
         #Simpan User Data Logic
-        user_data = JSONParser().parse(request)
-        print(user_data)
-        # user_data = json.loads(str(request.body.decode('utf-8')))
-        user_data_serializer = UserdataSerializer(data=user_data)
-        print(user_data_serializer)
+
+        jsonObj = json.loads(request.body.decode('utf-8'))
+        print(jsonObj)
+        jsonStr = '{"nama_user":' + '"' + jsonObj['nama_user'] + '"' + ',' + '"label_aktivitas":' + str(jsonObj['label_aktivitas']) + ',' + '"locations":' + '{' + '"type":' + '"Point"' + ',' + '"coordinates":' + str(jsonObj['locations']) + '}' + '}'
+        print("Final " + str(json.loads(jsonStr)))
+        jsonFinal = json.loads(jsonStr)
+        # user_data = JSONParser().parse(jsonFinal)
+        user_data_serializer = UserdataSerializer(data=jsonFinal)
+        # print(user_data_serializer)
         print("Tes: ", user_data_serializer.is_valid())
+        print("Error JSON: ", user_data_serializer.errors)
         if user_data_serializer.is_valid():
             user_data_serializer.save()
             return JsonResponse(user_data_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(user_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 all_entries = UserData.objects.all()
-print(all_entries)
+# print(all_entries)
 
 @api_view(['GET'])
 def user_data_get(request):
