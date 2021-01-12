@@ -9,7 +9,11 @@ from webKomber.models import UserData
 from webKomber.serializers import UserdataSerializer
 from rest_framework.decorators import api_view
 import json
+from datetime import datetime
+import pytz
 # Create your views here.
+
+LOCAL_TIMEZONE = pytz.timezone('Asia/Jakarta')
 
 def index(request):
     userData = UserData.objects.all()
@@ -22,7 +26,9 @@ def index(request):
     for key in hashLocData:
         bindStr = ""
         for i, item in enumerate(hashLocData[key]):
-            bindStr += "<b>" + str(i+1) + ". " + str(item.nama_user) + "</b><br>" + str(item.get_label_aktivitas_display()) + "<br>" + str(item.created_at) + "<br><br>"
+            localDate = item.created_at.replace(tzinfo=pytz.utc).astimezone(LOCAL_TIMEZONE)
+            localDateStr = localDate.strftime('%d-%m-%Y %H:%M:%S') + " WIB"
+            bindStr += "<b>" + str(i+1) + ". " + str(item.nama_user) + "</b><br>" + str(item.get_label_aktivitas_display()) + "<br>" + localDateStr + "<br><br>"
         hashLocData[key] = bindStr
 
     return render(request, 'index.html', {'user':hashLocData})
